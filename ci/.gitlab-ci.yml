@@ -1,42 +1,14 @@
 stages:
-  - test
-  - scan
-  - build
-  - deploy
+  - cost
 
-variables:
-  IMAGE_REGISTRY: registry.example.com/nomadwave
-  IMAGE_TAG: "$CI_COMMIT_SHA"
-
-test:
-  stage: test
-  image: golang:1.21
-  script:
-    - go test ./...
-
-scan:
-  stage: scan
+infracost:
+  stage: cost
   image:
-    name: aquasec/trivy:latest
+    name: infracost/infracost:ci-0.10
     entrypoint: [""]
   script:
-    - trivy fs --exit-code 1 .
+    - infracost diff --path . --format gitlab-comment --out-file infracost-comment.json
+    - infracost comment gitlab --path infracost-comment.json --gitlab-token $GITLAB_TOKEN --merge-request-iid $CI_MERGE_REQUEST_IID --gitlab-server-url $CI_SERVER_URL
+  rules:
+    - if: '$CI_MERGE_REQUEST_IID'
 
-build:
-  stage: build
-  image: docker:24.0
-  services:
-    - docker:dind
-  variables:
-    DOCKER_TLS_CERTDIR: ""
-  script:
-    - docker build -t "$IMAGE_REGISTRY:$IMAGE_TAG" .
-    - docker push "$IMAGE_REGISTRY:$IMAGE_TAG"
-
-deploy:
-  stage: deploy
-  image: hashicorp/nomad:latest
-  script:
-    - nomad job run -replace job.hcl
-  only:
-    - main

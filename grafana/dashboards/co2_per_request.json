@@ -1,0 +1,13 @@
+{
+  "title": "CO2 per Request",
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "CO2 per Request",
+      "targets": [
+        {"expr": "co2_per_request"}
+      ],
+      "id": 1
+    }
+  ]
+}
