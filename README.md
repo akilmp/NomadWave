@@ -225,18 +225,27 @@ Nomad job GitOps repo watch picks up commit; Consul splitter starts canary.
 
 ## Chaos & Resilience Testing
 
-* **Nomad‑FireDrill** plan:
+* **Nomad‑FireDrill** configuration: [`chaos/firedrill.yaml`](chaos/firedrill.yaml)
 
-  ```hcl
-  experiment "kill-pi-alloc" {
-    target "alloc" {
-      selector = "node.class == \"pi\""
-      percent  = 50
-    }
-    action "kill" {}
-  }
+  ```yaml
+  schedule:
+    cron: "0 3 * * 1"
+  experiments:
+    - name: kill-pi-alloc
+      target:
+        type: allocation
+        selector: 'node.class == "pi"'
+        percent: 50
+      action:
+        type: kill
+      checks:
+        recovery:
+          metric: alloc_recovery_seconds
+          alert_threshold_seconds: 120
+          record: true
   ```
-* Weekly cron triggers experiment; PagerDuty on allocation recovery >120 s.
+* A Nomad periodic job or external cron invokes the experiment weekly.
+* PagerDuty alerts if allocation recovery exceeds **120 s**.
 
 ---
 

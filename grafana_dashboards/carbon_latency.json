@@ -1,0 +1,30 @@
+{
+  "id": null,
+  "title": "Carbon & Latency",
+  "timezone": "browser",
+  "schemaVersion": 36,
+  "version": 0,
+  "refresh": "30s",
+  "panels": [
+    {
+      "type": "graph",
+      "title": "API Latency (ms)",
+      "datasource": "VictoriaMetrics",
+      "targets": [
+        { "expr": "avg(rate(http_request_duration_ms_sum[1m]))" }
+      ],
+      "fieldConfig": {"defaults": {}},
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0}
+    },
+    {
+      "type": "graph",
+      "title": "CO2 per Request (g)",
+      "datasource": "VictoriaMetrics",
+      "targets": [
+        { "expr": "avg(co2_per_request)" }
+      ],
+      "fieldConfig": {"defaults": {}},
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0}
+    }
+  ]
+}
