@@ -1,0 +1,39 @@
+{
+  "name": "NomadWave",
+  "version": 1,
+  "settings": {
+    "video": {
+      "fps": 60,
+      "base": { "width": 2560, "height": 1440 },
+      "output": { "width": 1920, "height": 1080 }
+    },
+    "output": {
+      "mode": "simple",
+      "recording": {
+        "quality": "high",
+        "format": "mp4",
+        "encoder": "x264"
+      },
+      "audio_bitrate": 160
+    }
+  },
+  "scene_collections": [
+    {
+      "name": "NomadWave",
+      "scenes": [
+        {
+          "name": "Screen",
+          "sources": [
+            { "name": "Display Capture", "type": "monitor_capture", "settings": {} }
+          ]
+        },
+        {
+          "name": "Camera",
+          "sources": [
+            { "name": "Webcam", "type": "dshow_input", "settings": {} }
+          ]
+        }
+      ]
+    }
+  ]
+}
