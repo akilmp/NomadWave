@@ -1,0 +1,13 @@
+stages:
+  - cost
+
+infracost:
+  stage: cost
+  image:
+    name: infracost/infracost:ci-0.10
+    entrypoint: [""]
+  script:
+    - infracost diff --path . --format gitlab-comment --out-file infracost-comment.json
+    - infracost comment gitlab --path infracost-comment.json --gitlab-token $GITLAB_TOKEN --merge-request-iid $CI_MERGE_REQUEST_IID --gitlab-server-url $CI_SERVER_URL
+  rules:
+    - if: '$CI_MERGE_REQUEST_IID'
