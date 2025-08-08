@@ -1,0 +1,42 @@
+stages:
+  - test
+  - scan
+  - build
+  - deploy
+
+variables:
+  IMAGE_REGISTRY: registry.example.com/nomadwave
+  IMAGE_TAG: "$CI_COMMIT_SHA"
+
+test:
+  stage: test
+  image: golang:1.21
+  script:
+    - go test ./...
+
+scan:
+  stage: scan
+  image:
+    name: aquasec/trivy:latest
+    entrypoint: [""]
+  script:
+    - trivy fs --exit-code 1 .
+
+build:
+  stage: build
+  image: docker:24.0
+  services:
+    - docker:dind
+  variables:
+    DOCKER_TLS_CERTDIR: ""
+  script:
+    - docker build -t "$IMAGE_REGISTRY:$IMAGE_TAG" .
+    - docker push "$IMAGE_REGISTRY:$IMAGE_TAG"
+
+deploy:
+  stage: deploy
+  image: hashicorp/nomad:latest
+  script:
+    - nomad job run -replace job.hcl
+  only:
+    - main
