@@ -1,0 +1,3 @@
+name: edge-pi
+runtime: nodejs
+description: Install Nomad and Consul agents on Raspberry Pis and join the federation.

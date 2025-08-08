@@ -1,0 +1,18 @@
+---
+schedule:
+  # Run every Monday at 03:00 UTC
+  cron: "0 3 * * 1"
+
+experiments:
+  - name: kill-pi-alloc
+    target:
+      type: allocation
+      selector: 'node.class == "pi"'
+      percent: 50
+    action:
+      type: kill
+    checks:
+      recovery:
+        metric: alloc_recovery_seconds
+        alert_threshold_seconds: 120
+        record: true
