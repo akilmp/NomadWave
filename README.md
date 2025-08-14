@@ -290,23 +290,6 @@ Record 1440p 60 fps; OBS profile `docs/obs/nomadwave.json`.
 | Vault token expired         | Ensure Agent auto‑auth role bound to EC2 IAM role            |
 | VictoriaMetrics high RAM    | Enable downsampling & remote write compression               |
 
----
 
-## Stretch Goals
 
-* **Cilium CNI** inside Nomad bridge for eBPF flow logs.
-* **SPIFFE/SPIRE** workload IDs → Connect CA plug‑in.
-* **Nomad Pack Templates** for one‑line job deploys.
 
----
-
-## References
-
-* HashiCorp Nomad Firecracker driver guide – 2025
-* Consul Service Splitter docs – 2024
-* VictoriaMetrics cluster setup – 2025
-* ElectricityMap API – [https://www.electricitymaps.com/api](https://www.electricitymaps.com/api)
-
----
-
-*Last updated: 4 Aug 2025*
