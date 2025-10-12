@@ -1,4 +1,4 @@
-# NomadWave – Carbon‑Aware Surf‑Conditions API on Firecracker + Nomad
+# Sydney NomadWave (Bondi and Maroubra) – Carbon‑Aware Surf‑Conditions API on Firecracker + Nomad
 
 ## Table of Contents
 
